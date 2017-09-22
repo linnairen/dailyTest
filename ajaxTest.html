@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<button id="btn">click me</button>
+	</body>
+	<script type="text/javascript">
+		function ajax(obj){//method,url,data,success,error,async,dataType
+			var xmlhttp = null;
+			if(window.XMLHttpRequest){
+				xmlhttp = new XMLHttpRequest();
+			}
+			else if(window.ActiveXObject){
+				xmlhttp = new ActiveXObject();
+			}
+			if(xmlhttp != null){
+				xmlhttp.onreadystatechange = function(){
+					if(xmlhttp.readyState==4){// 4 = "loaded"
+					  	if(xmlhttp.status==200){// 200 = "OK"
+					  		var data = xmlhttp.responseText;
+					  		if(!obj.dataType ||( typeof(obj.dataType == 'string') && obj.dataType.toLowerCase() == 'json')){
+					  			try{
+					  				data = JSON.parse(data);
+					  			}
+					  			catch(e){
+					  				throw new TypeError('the data is not a ' + (obj.dataType?obj.dataType:'json'));
+					  			}
+					  		}
+					    	obj.success(data);
+					    }
+					  	else{
+					    	obj.error();
+					    }
+					}
+					
+				};
+				xmlhttp.open(obj.method,obj.url,obj.async);
+				xmlhttp.send(obj.data);
+			}
+		}
+		document.getElementById('btn').onclick = function(){
+			ajax({
+				method:'GET',
+				url:'note.xml',
+				data:'222',
+				success:function(data){
+					console.log(data);
+				},
+				error:function(){
+					
+				},
+				async:true
+			})
+		}
+	</script>
+</html>
+ 

@@ -28,7 +28,17 @@ function ajax(obj){
 			  				data = JSON.parse(data);
 			  			}
 			  			catch(e){
-			  				throw new TypeError('the data is not a ' + (obj.dataType?obj.dataType:'json'));
+			  				try{
+			  					data = Array.parse(data);
+			  				}
+			  				catch(ee){
+				  				try{
+				  					data = { 'd': data };
+				  				}
+				  				catch(ee){
+				  					throw new TypeError('the data is not a ' + (obj.dataType?obj.dataType:'json'));
+				  				}
+			  				}
 			  			}
 			  		}
 			    	obj.success(data);
@@ -39,6 +49,7 @@ function ajax(obj){
 			}
 		};
 		xmlhttp.open(obj.method,obj.url,obj.async);
+		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded;charset=utf-8");
 		xmlhttp.send(obj.data);
 	}
 }

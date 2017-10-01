@@ -44,8 +44,9 @@
 		document.getElementById('btn').onclick = function(){
 			ajax({
 				method:'GET',
-				url:'note.xml',
+				url:'data.json',
 				data:'222',
+				dataType:'json',
 				success:function(data){
 					console.log(data);
 				},
@@ -55,6 +56,6 @@
 				async:true
 			})
 		}
-	</script>
+</script>
 </html>
  
